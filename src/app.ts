@@ -5,6 +5,7 @@ import { getProfileRouter } from "./modules/getProfile/getProfile.routes";
 import { categoryRouter } from "./modules/category/category.route";
 import { medicineRouter } from "./modules/medicine/medicine.route";
 import { userRouter } from "./modules/user/user.route";
+import { orderRouter } from "./modules/order/order.route";
 
 const app:Application = express();
 
@@ -22,6 +23,8 @@ app.use("/api/category", categoryRouter)
 app.use("/api/medicine", medicineRouter)
 
 app.use("/api/admin", userRouter)
+
+app.use("/api/order", orderRouter)
 
 
 app.get("/", (req, res) => {
