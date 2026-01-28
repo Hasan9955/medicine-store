@@ -6,6 +6,12 @@ const router = Router();
 
 router.post("/", routeAuth(UserRole.ADMIN, UserRole.SELLER, UserRole.USER) ,orderController.createOrder);
 
-router.get("/", routeAuth(UserRole.ADMIN, UserRole.SELLER), orderController.getAllOrder)
+router.get("/", routeAuth(UserRole.ADMIN, UserRole.SELLER), orderController.getAllUserOrder);
+
+router.get("/seller", routeAuth(UserRole.SELLER), orderController.getAllSellerOrder)
+
+router.get("/:orderId",routeAuth(UserRole.ADMIN, UserRole.SELLER, UserRole.USER), orderController.getOrderById)
+
+
 
 export const orderRouter :Router = router;
