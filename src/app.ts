@@ -6,6 +6,7 @@ import { categoryRouter } from "./modules/category/category.route";
 import { medicineRouter } from "./modules/medicine/medicine.route";
 import { userRouter } from "./modules/user/user.route";
 import { orderRouter } from "./modules/order/order.route";
+import { cartRoutes } from "./modules/cart/cart.route";
 
 const app:Application = express();
 
@@ -25,6 +26,8 @@ app.use("/api/medicine", medicineRouter)
 app.use("/api/admin", userRouter)
 
 app.use("/api/order", orderRouter)
+
+app.use("/api/cart", cartRoutes);
 
 
 app.get("/", (req, res) => {
