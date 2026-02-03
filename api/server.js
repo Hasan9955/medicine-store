@@ -1,19 +1,27 @@
+// api/server.js
+import express2 from "express";
+import cors from "cors";
+import * as path from "path";
+import { fileURLToPath } from "url";
+import * as runtime from "@prisma/client/runtime/client";
+import * as runtime2 from "@prisma/client/runtime/client";
+import { Router } from "express";
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
+import nodemailer from "nodemailer";
+import { Router as Router2 } from "express";
+import { Router as Router3 } from "express";
+import { Router as Router4 } from "express";
+import { Router as Router5 } from "express";
+import express from "express";
+import { toNodeHandler } from "better-auth/node";
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-
-// src/app.ts
-import express2 from "express";
-import cors from "cors";
-
-// generated/prisma/client.ts
-import * as path from "path";
-import { fileURLToPath } from "url";
-
-// generated/prisma/internal/class.ts
-import * as runtime from "@prisma/client/runtime/client";
 var config = {
   "previewFeatures": [],
   "clientVersion": "7.3.0",
@@ -43,8 +51,6 @@ config.compilerWasm = {
 function getPrismaClientClass() {
   return runtime.getPrismaClient(config);
 }
-
-// generated/prisma/internal/prismaNamespace.ts
 var prismaNamespace_exports = {};
 __export(prismaNamespace_exports, {
   AccountScalarFieldEnum: () => AccountScalarFieldEnum,
@@ -82,7 +88,6 @@ __export(prismaNamespace_exports, {
   raw: () => raw2,
   sql: () => sql
 });
-import * as runtime2 from "@prisma/client/runtime/client";
 var PrismaClientKnownRequestError2 = runtime2.PrismaClientKnownRequestError;
 var PrismaClientUnknownRequestError2 = runtime2.PrismaClientUnknownRequestError;
 var PrismaClientRustPanicError2 = runtime2.PrismaClientRustPanicError;
@@ -236,12 +241,8 @@ var NullsOrder = {
   last: "last"
 };
 var defineExtension = runtime2.Extensions.defineExtension;
-
-// generated/prisma/client.ts
 globalThis["__dirname"] = path.dirname(fileURLToPath(import.meta.url));
 var PrismaClient = getPrismaClientClass();
-
-// src/middlewares/globalErrorHandler.ts
 function errorHandler(err, req, res, next) {
   let statusCode = 500;
   let errorMessage = "Internal Server Error";
@@ -279,18 +280,9 @@ function errorHandler(err, req, res, next) {
   });
 }
 var globalErrorHandler_default = errorHandler;
-
-// src/modules/getProfile/getProfile.routes.ts
-import { Router } from "express";
-
-// src/lib/prisma.ts
-import "dotenv/config";
-import { PrismaPg } from "@prisma/adapter-pg";
 var connectionString = `${process.env.DATABASE_URL}`;
 var adapter = new PrismaPg({ connectionString });
 var prisma = new PrismaClient({ adapter });
-
-// src/modules/getProfile/getProfile.service.ts
 var getProfileService = async (userId) => {
   return prisma.user.findUnique({
     where: { id: userId },
@@ -309,8 +301,6 @@ var updateUserProfile = async (id, data) => {
     data
   });
 };
-
-// src/modules/getProfile/getProfile.controller.ts
 var getProfileController = async (req, res) => {
   const user = req.user;
   if (!user) {
@@ -333,11 +323,6 @@ var updateUser = async (req, res) => {
     res.status(500).json({ error: "Failed to update user" });
   }
 };
-
-// src/lib/auth.ts
-import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
-import nodemailer from "nodemailer";
 var transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -405,8 +390,6 @@ var auth = betterAuth({
     }
   }
 });
-
-// src/middlewares/route-auth.ts
 var UserRole = /* @__PURE__ */ ((UserRole2) => {
   UserRole2["USER"] = "USER";
   UserRole2["SELLER"] = "SELLER";
@@ -451,17 +434,15 @@ var routeAuth = (...role) => {
   };
 };
 var route_auth_default = routeAuth;
-
-// src/modules/getProfile/getProfile.routes.ts
 var router = Router();
-router.get("/", route_auth_default("ADMIN" /* ADMIN */, "SELLER" /* SELLER */, "USER" /* USER */), getProfileController);
+router.get("/", route_auth_default(
+  "ADMIN",
+  "SELLER",
+  "USER"
+  /* USER */
+), getProfileController);
 router.patch("/:id", updateUser);
 var getProfileRouter = router;
-
-// src/modules/category/category.route.ts
-import { Router as Router2 } from "express";
-
-// src/modules/category/category.service.ts
 var createCategory = async (name) => {
   const category = await prisma.category.create({
     data: {
@@ -487,8 +468,6 @@ var categoryService = {
   createCategory,
   getAllCategory
 };
-
-// src/modules/category/category.controller.ts
 var createCategory2 = async (req, res) => {
   try {
     const { name } = req.body;
@@ -530,17 +509,18 @@ var categoryController = {
   createCategory: createCategory2,
   getAllCategory: getAllCategory2
 };
-
-// src/modules/category/category.route.ts
 var router2 = Router2();
-router2.post("/create", route_auth_default("ADMIN" /* ADMIN */), categoryController.createCategory);
-router2.get("/all", route_auth_default("ADMIN" /* ADMIN */, "SELLER" /* SELLER */, "USER" /* USER */), categoryController.getAllCategory);
+router2.post("/create", route_auth_default(
+  "ADMIN"
+  /* ADMIN */
+), categoryController.createCategory);
+router2.get("/all", route_auth_default(
+  "ADMIN",
+  "SELLER",
+  "USER"
+  /* USER */
+), categoryController.getAllCategory);
 var categoryRouter = router2;
-
-// src/modules/medicine/medicine.route.ts
-import { Router as Router3 } from "express";
-
-// src/modules/medicine/medicine.service.ts
 var addMedicine = async (data) => {
   const category = await prisma.category.findUnique({
     where: { name: data.categoryName }
@@ -618,8 +598,6 @@ var medicineService = {
   getAllMedicine,
   getMedicineById
 };
-
-// src/modules/medicine/medicine.controller.ts
 var addMedicine2 = async (req, res) => {
   try {
     const { name, description, price, stock, categoryName } = req.body;
@@ -729,20 +707,22 @@ var medicineController = {
   getAllMedicine: getAllMedicine2,
   getMedicineById: getMedicineById2
 };
-
-// src/modules/medicine/medicine.route.ts
 var router3 = Router3();
-router3.post("/seller/add", route_auth_default("SELLER" /* SELLER */), medicineController.addMedicine);
-router3.put("/seller/:idParam", route_auth_default("SELLER" /* SELLER */), medicineController.updateMedicine);
-router3.delete("/seller/:idParam", route_auth_default("SELLER" /* SELLER */), medicineController.deleteMedicine);
+router3.post("/seller/add", route_auth_default(
+  "SELLER"
+  /* SELLER */
+), medicineController.addMedicine);
+router3.put("/seller/:idParam", route_auth_default(
+  "SELLER"
+  /* SELLER */
+), medicineController.updateMedicine);
+router3.delete("/seller/:idParam", route_auth_default(
+  "SELLER"
+  /* SELLER */
+), medicineController.deleteMedicine);
 router3.get("/", medicineController.getAllMedicine);
 router3.get("/:idParam", medicineController.getMedicineById);
 var medicineRouter = router3;
-
-// src/modules/user/user.route.ts
-import { Router as Router4 } from "express";
-
-// src/modules/user/user.service.ts
 var getAllUser = async () => {
   const users = await prisma.user.findMany({
     orderBy: {
@@ -765,8 +745,6 @@ var userService = {
   getAllUser,
   updateUserStatus
 };
-
-// src/modules/user/user.controller.ts
 var getAllUser2 = async (req, res) => {
   try {
     const result = await userService.getAllUser();
@@ -824,17 +802,16 @@ var userController = {
   getAllUser: getAllUser2,
   updateUserStatus: updateUserStatus2
 };
-
-// src/modules/user/user.route.ts
 var router4 = Router4();
-router4.get("/users", route_auth_default("ADMIN" /* ADMIN */), userController.getAllUser);
-router4.patch("/users/:userId", route_auth_default("ADMIN" /* ADMIN */), userController.updateUserStatus);
+router4.get("/users", route_auth_default(
+  "ADMIN"
+  /* ADMIN */
+), userController.getAllUser);
+router4.patch("/users/:userId", route_auth_default(
+  "ADMIN"
+  /* ADMIN */
+), userController.updateUserStatus);
 var userRouter = router4;
-
-// src/modules/order/order.route.ts
-import { Router as Router5 } from "express";
-
-// src/modules/order/order.service.ts
 var createOrder = async (userId, total) => {
   const order = await prisma.order.create({
     data: {
@@ -894,8 +871,6 @@ var orderService = {
   getOrderById,
   getAllSellerOrder
 };
-
-// src/modules/order/order.controller.ts
 var createOrder2 = async (req, res) => {
   try {
     const { total } = req.body;
@@ -971,19 +946,29 @@ var orderController = {
   getOrderById: getOrderById2,
   getAllSellerOrder: getAllSellerOrder2
 };
-
-// src/modules/order/order.route.ts
 var router5 = Router5();
-router5.post("/", route_auth_default("ADMIN" /* ADMIN */, "SELLER" /* SELLER */, "USER" /* USER */), orderController.createOrder);
-router5.get("/", route_auth_default("ADMIN" /* ADMIN */, "SELLER" /* SELLER */), orderController.getAllUserOrder);
-router5.get("/seller", route_auth_default("SELLER" /* SELLER */), orderController.getAllSellerOrder);
-router5.get("/:orderId", route_auth_default("ADMIN" /* ADMIN */, "SELLER" /* SELLER */, "USER" /* USER */), orderController.getOrderById);
+router5.post("/", route_auth_default(
+  "ADMIN",
+  "SELLER",
+  "USER"
+  /* USER */
+), orderController.createOrder);
+router5.get("/", route_auth_default(
+  "ADMIN",
+  "SELLER"
+  /* SELLER */
+), orderController.getAllUserOrder);
+router5.get("/seller", route_auth_default(
+  "SELLER"
+  /* SELLER */
+), orderController.getAllSellerOrder);
+router5.get("/:orderId", route_auth_default(
+  "ADMIN",
+  "SELLER",
+  "USER"
+  /* USER */
+), orderController.getOrderById);
 var orderRouter = router5;
-
-// src/modules/cart/cart.route.ts
-import express from "express";
-
-// src/modules/cart/cart.service.ts
 var getUserCart = async (userId) => {
   return prisma.cart.findFirst({
     where: { userId },
@@ -1017,8 +1002,6 @@ var deleteCartservice = async (cartId) => {
     }
   });
 };
-
-// src/modules/cart/cart.controller.ts
 var getCart = async (req, res) => {
   const { userId } = req.params;
   try {
@@ -1065,15 +1048,11 @@ var deleteCart = async (req, res) => {
     });
   }
 };
-
-// src/modules/cart/cart.route.ts
 var router6 = express.Router();
 router6.get("/:userId", getCart);
 router6.post("/:userId/add", addProductToCart);
 router6.delete("/:cartId", deleteCart);
 var cartRoutes = router6;
-
-// src/app.ts
 var app = express2();
 app.use(cors({
   origin: process.env.APP_URL || "http://localhost:3000",
@@ -1091,12 +1070,14 @@ app.get("/", (req, res) => {
 });
 app.use(globalErrorHandler_default);
 var app_default = app;
-
-// src/server.ts
-import { toNodeHandler } from "better-auth/node";
 var PORT = process.env.PORT || 5e3;
 app_default.all("/api/auth/*splat", toNodeHandler(auth));
-app_default.get("api/auth/profile", route_auth_default("ADMIN" /* ADMIN */, "SELLER" /* SELLER */, "USER" /* USER */), (req, res) => {
+app_default.get("api/auth/profile", route_auth_default(
+  "ADMIN",
+  "SELLER",
+  "USER"
+  /* USER */
+), (req, res) => {
   res.json(req.user);
 });
 async function main() {
