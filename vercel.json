@@ -1,14 +1,5 @@
-{
-  "version": 2,
-  "functions": {
-    "api/server.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/server.js"
-    }
-  ]
-}
+{  "version": 2,  
+"rewrites": [    
+{      "source": "/(.*)",      
+"destination": "/src/app.ts"    }  
+]}
