@@ -1,5 +1,15 @@
-{  "version": 2,  
-"rewrites": [    
-{      "source": "/(.*)",      
-"destination": "/src/app.ts"    }  
-]}
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/server.mjs",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/server.mjs"
+    }
+  ]
+}
