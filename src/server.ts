@@ -1,4 +1,4 @@
-import app from "./app";
+import app from "./app.js";
 import { auth } from "./lib/auth";
 import { prisma } from "./lib/prisma";
 import { toNodeHandler } from "better-auth/node";

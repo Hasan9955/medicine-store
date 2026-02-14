@@ -4,7 +4,7 @@
   "description": "",
   "main": "api/server.js",
 "scripts": {
-    "start": "node ./dist/server.js",
+    "start": "node ./api/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "vercel-build": "tsc && prisma generate",
     "build": "tsc",
