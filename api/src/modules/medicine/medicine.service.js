@@ -1,33 +1,11 @@
 import { prisma } from "../../lib/prisma";
-
-
-interface MedicineInput {
-    name: string;
-    description?: string;
-    price: number;
-    stock: number;
-    sellerId: string;
-    categoryName: string;
-}
-
-interface UpdateMedicineInput {
-    name?: string;
-    description?: string;
-    price?: number;
-    stock?: number;
-    categoryName?: string;
-}
-
-const addMedicine = async (data: MedicineInput) => {
-
+const addMedicine = async (data) => {
     const category = await prisma.category.findUnique({
         where: { name: data.categoryName },
     });
-
     if (!category) {
         throw new Error("Category not found");
     }
-
     const medicine = await prisma.medicine.create({
         data: {
             name: data.name,
@@ -37,16 +15,11 @@ const addMedicine = async (data: MedicineInput) => {
             categoryId: category.id,
             sellerId: data.sellerId
         }
-    })
-    return medicine
-}
-
-
-const updateMedicine = async (
-idParam: string,    data: UpdateMedicineInput
-) => {
-    let categoryId: string | undefined;
-
+    });
+    return medicine;
+};
+const updateMedicine = async (idParam, data) => {
+    let categoryId;
     if (data.categoryName) {
         const category = await prisma.category.findFirst({
             where: {
@@ -56,14 +29,11 @@ idParam: string,    data: UpdateMedicineInput
                 },
             },
         });
-
         if (!category) {
             throw new Error("Category not found");
         }
-
         categoryId = category.id;
     }
-
     const medicine = await prisma.medicine.update({
         where: { id: idParam },
         data: {
@@ -74,46 +44,33 @@ idParam: string,    data: UpdateMedicineInput
             categoryId,
         },
     });
-
     return medicine;
 };
-
-
-const deleteMedicine = async(id :string) =>{
+const deleteMedicine = async (id) => {
     const medicine = await prisma.medicine.delete({
-        where:{
-            id:id
+        where: {
+            id: id
         }
-    })
+    });
     return medicine;
-}
-
-const getAllMedicine = async (featured?: boolean) => {
-    
-  return prisma.medicine.findMany({
-    where: featured === undefined ? {} : { featured },
-  });
 };
-
-
-
-const getMedicineById = async(id : string) =>{
-    const medicine= await prisma.medicine.findUnique(
-        {
-            where:{
-                id:id
-            }
+const getAllMedicine = async (featured) => {
+    return prisma.medicine.findMany({
+        where: featured === undefined ? {} : { featured },
+    });
+};
+const getMedicineById = async (id) => {
+    const medicine = await prisma.medicine.findUnique({
+        where: {
+            id: id
         }
-    )
+    });
     return medicine;
-}
-
-
-
+};
 export const medicineService = {
     addMedicine,
     updateMedicine,
     deleteMedicine,
     getAllMedicine,
     getMedicineById
-}
+};
