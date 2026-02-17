@@ -1,8 +1,11 @@
-import { addToCart, getUserCart, deleteCartservice } from "./cart.service";
-export const getCart = async (req, res) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteCart = exports.addProductToCart = exports.getCart = void 0;
+const cart_service_1 = require("./cart.service");
+const getCart = async (req, res) => {
     const { userId } = req.params;
     try {
-        const cart = await getUserCart(userId);
+        const cart = await (0, cart_service_1.getUserCart)(userId);
         res.json({ success: true, cart });
     }
     catch (err) {
@@ -10,14 +13,15 @@ export const getCart = async (req, res) => {
         res.status(500).json({ error: "Failed to fetch cart" });
     }
 };
-export const addProductToCart = async (req, res) => {
+exports.getCart = getCart;
+const addProductToCart = async (req, res) => {
     const { userId } = req.params;
     const { productId, quantity } = req.body;
     if (!productId || !quantity) {
         return res.status(400).json({ error: "productId and quantity required" });
     }
     try {
-        const item = await addToCart(userId, productId, quantity);
+        const item = await (0, cart_service_1.addToCart)(userId, productId, quantity);
         res.json({ success: true, item });
     }
     catch (err) {
@@ -25,7 +29,8 @@ export const addProductToCart = async (req, res) => {
         res.status(500).json({ error: "Failed to add product to cart" });
     }
 };
-export const deleteCart = async (req, res) => {
+exports.addProductToCart = addProductToCart;
+const deleteCart = async (req, res) => {
     try {
         const { cartId } = req.params;
         if (!cartId) {
@@ -34,7 +39,7 @@ export const deleteCart = async (req, res) => {
                 message: "cart id is required",
             });
         }
-        const result = await deleteCartservice(cartId);
+        const result = await (0, cart_service_1.deleteCartservice)(cartId);
         res.status(200).json({
             success: true,
             message: "Medicine deleted successfully",
@@ -48,3 +53,4 @@ export const deleteCart = async (req, res) => {
         });
     }
 };
+exports.deleteCart = deleteCart;

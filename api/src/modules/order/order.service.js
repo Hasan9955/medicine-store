@@ -1,6 +1,9 @@
-import { prisma } from "../../lib/prisma";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.orderService = void 0;
+const prisma_1 = require("../../lib/prisma");
 const createOrder = async (userId, total) => {
-    const order = await prisma.order.create({
+    const order = await prisma_1.prisma.order.create({
         data: {
             userId: userId,
             total: total
@@ -9,7 +12,7 @@ const createOrder = async (userId, total) => {
     return order;
 };
 const getAllUserOrder = async () => {
-    const orders = await prisma.order.findMany({
+    const orders = await prisma_1.prisma.order.findMany({
         where: {
             user: {
                 role: "USER",
@@ -25,7 +28,7 @@ const getAllUserOrder = async () => {
     return orders;
 };
 const getAllSellerOrder = async () => {
-    const orders = await prisma.order.findMany({
+    const orders = await prisma_1.prisma.order.findMany({
         where: {
             user: {
                 role: "SELLER",
@@ -41,14 +44,14 @@ const getAllSellerOrder = async () => {
     return orders;
 };
 const getOrderById = async (id) => {
-    const order = await prisma.order.findUnique({
+    const order = await prisma_1.prisma.order.findUnique({
         where: {
             id: id
         }
     });
     return order;
 };
-export const orderService = {
+exports.orderService = {
     createOrder,
     getAllUserOrder,
     getOrderById,

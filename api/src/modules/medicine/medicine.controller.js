@@ -1,4 +1,7 @@
-import { medicineService } from "./medicine.service";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.medicineController = void 0;
+const medicine_service_1 = require("./medicine.service");
 const addMedicine = async (req, res) => {
     try {
         const { name, description, price, stock, categoryName } = req.body;
@@ -9,7 +12,7 @@ const addMedicine = async (req, res) => {
                 message: "All required fields must be provided",
             });
         }
-        const result = await medicineService.addMedicine({ name, description, price, stock, sellerId, categoryName });
+        const result = await medicine_service_1.medicineService.addMedicine({ name, description, price, stock, sellerId, categoryName });
         res.status(201).json({
             success: true,
             message: "Medicine created successfully",
@@ -33,7 +36,7 @@ const updateMedicine = async (req, res) => {
                 message: "Medicine id is required",
             });
         }
-        const result = await medicineService.updateMedicine(idParam, { name, description, price, stock, categoryName });
+        const result = await medicine_service_1.medicineService.updateMedicine(idParam, { name, description, price, stock, categoryName });
         res.status(200).json({
             success: true,
             message: "Medicine updated successfully",
@@ -56,7 +59,7 @@ const deleteMedicine = async (req, res) => {
                 message: "Medicine id is required",
             });
         }
-        const result = await medicineService.deleteMedicine(idParam);
+        const result = await medicine_service_1.medicineService.deleteMedicine(idParam);
         res.status(200).json({
             success: true,
             message: "Medicine deleted successfully",
@@ -73,7 +76,7 @@ const deleteMedicine = async (req, res) => {
 const getAllMedicine = async (req, res) => {
     try {
         const { featured } = req.query;
-        const result = await medicineService.getAllMedicine(featured !== undefined ? featured === "true" : undefined);
+        const result = await medicine_service_1.medicineService.getAllMedicine(featured !== undefined ? featured === "true" : undefined);
         res.status(200).json({
             success: true,
             message: "Medicine fetched successfully",
@@ -90,7 +93,7 @@ const getAllMedicine = async (req, res) => {
 const getMedicineById = async (req, res) => {
     try {
         const { idParam } = req.params;
-        const result = await medicineService.getMedicineById(idParam);
+        const result = await medicine_service_1.medicineService.getMedicineById(idParam);
         res.status(200).json({
             success: true,
             message: "Medicine fetched successfully",
@@ -104,7 +107,7 @@ const getMedicineById = async (req, res) => {
         });
     }
 };
-export const medicineController = {
+exports.medicineController = {
     addMedicine,
     updateMedicine,
     deleteMedicine,

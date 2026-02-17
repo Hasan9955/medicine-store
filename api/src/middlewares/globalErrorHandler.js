@@ -1,15 +1,17 @@
-import { Prisma } from "../../generated/prisma/client";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const client_1 = require("../../generated/prisma/client");
 function errorHandler(err, req, res, next) {
     let statusCode = 500;
     let errorMessage = "Internal Server Error";
     let errorDetails = err;
     //PrismaClientValidationError
-    if (err instanceof Prisma.PrismaClientValidationError) {
+    if (err instanceof client_1.Prisma.PrismaClientValidationError) {
         statusCode = 400;
         errorMessage = "You provide incorrect field type or missing fields";
     }
     //PrismaClientKnownRequestError
-    else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    else if (err instanceof client_1.Prisma.PrismaClientKnownRequestError) {
         if (err.code === 'P2025') {
             statusCode = 400;
             errorMessage = "An operation failed because it depends on one or more records that were required but not found.";
@@ -24,17 +26,17 @@ function errorHandler(err, req, res, next) {
         }
     }
     //PrismaClientUnknownRequestError
-    else if (err instanceof Prisma.PrismaClientUnknownRequestError) {
+    else if (err instanceof client_1.Prisma.PrismaClientUnknownRequestError) {
         statusCode = 500;
         errorMessage = "Error occured during query excution";
     }
     // PrismaClientRustPanicError
-    else if (err instanceof Prisma.PrismaClientRustPanicError) {
+    else if (err instanceof client_1.Prisma.PrismaClientRustPanicError) {
         statusCode = 500;
         errorMessage = "This is a non-recoverable error which probably happens when the Prisma Query Engine has a panic.";
     }
     //PrismaClientInitializationError
-    else if (err instanceof Prisma.PrismaClientInitializationError) {
+    else if (err instanceof client_1.Prisma.PrismaClientInitializationError) {
         if (err.errorCode === "P1000") {
             statusCode = 401;
             errorMessage = "Authentication failed against database server";
@@ -46,4 +48,4 @@ function errorHandler(err, req, res, next) {
         error: errorDetails
     });
 }
-export default errorHandler;
+exports.default = errorHandler;

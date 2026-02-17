@@ -1,12 +1,15 @@
-import { orderService } from "./order.service";
-export var OrderStatus;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.orderController = exports.OrderStatus = void 0;
+const order_service_1 = require("./order.service");
+var OrderStatus;
 (function (OrderStatus) {
     OrderStatus["PENDING"] = "PENDING";
     OrderStatus["PAID"] = "PAID";
     OrderStatus["SHIPPED"] = "SHIPPED";
     OrderStatus["DELIVERED"] = "DELIVERED";
     OrderStatus["CANCELLED"] = "CANCELLED";
-})(OrderStatus || (OrderStatus = {}));
+})(OrderStatus || (exports.OrderStatus = OrderStatus = {}));
 const createOrder = async (req, res) => {
     try {
         const { total } = req.body;
@@ -17,7 +20,7 @@ const createOrder = async (req, res) => {
                 message: "total must be provided",
             });
         }
-        const result = await orderService.createOrder(userId, total);
+        const result = await order_service_1.orderService.createOrder(userId, total);
         res.status(201).json({
             success: true,
             message: "Order made successfully",
@@ -33,7 +36,7 @@ const createOrder = async (req, res) => {
 };
 const getAllUserOrder = async (req, res) => {
     try {
-        const result = await orderService.getAllUserOrder();
+        const result = await order_service_1.orderService.getAllUserOrder();
         res.status(200).json({
             success: true,
             message: "All order delevery Successfully",
@@ -49,7 +52,7 @@ const getAllUserOrder = async (req, res) => {
 };
 const getAllSellerOrder = async (req, res) => {
     try {
-        const result = await orderService.getAllSellerOrder();
+        const result = await order_service_1.orderService.getAllSellerOrder();
         res.status(200).json({
             success: true,
             message: "All order delevery Successfully",
@@ -66,7 +69,7 @@ const getAllSellerOrder = async (req, res) => {
 const getOrderById = async (req, res) => {
     try {
         const { orderId } = req.params;
-        const result = await orderService.getOrderById(orderId);
+        const result = await order_service_1.orderService.getOrderById(orderId);
         res.status(200).json({
             success: true,
             message: "Order found successfully",
@@ -80,7 +83,7 @@ const getOrderById = async (req, res) => {
         });
     }
 };
-export const orderController = {
+exports.orderController = {
     createOrder,
     getAllUserOrder,
     getOrderById,

@@ -1,14 +1,17 @@
-import { prisma } from "../../lib/prisma";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userService = exports.updateUserStatus = void 0;
+const prisma_1 = require("../../lib/prisma");
 const getAllUser = async () => {
-    const users = await prisma.user.findMany({
+    const users = await prisma_1.prisma.user.findMany({
         orderBy: {
             createdAt: "desc"
         }
     });
     return users;
 };
-export const updateUserStatus = async (userId, data) => {
-    const user = await prisma.user.update({
+const updateUserStatus = async (userId, data) => {
+    const user = await prisma_1.prisma.user.update({
         where: { id: userId },
         data: {
             role: data.role,
@@ -17,7 +20,8 @@ export const updateUserStatus = async (userId, data) => {
     });
     return user;
 };
-export const userService = {
+exports.updateUserStatus = updateUserStatus;
+exports.userService = {
     getAllUser,
-    updateUserStatus
+    updateUserStatus: exports.updateUserStatus
 };

@@ -1,8 +1,11 @@
-import { userService } from "./user.service";
-import { UserRole } from "../../middlewares/route-auth";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userController = void 0;
+const user_service_1 = require("./user.service");
+const route_auth_1 = require("../../middlewares/route-auth");
 const getAllUser = async (req, res) => {
     try {
-        const result = await userService.getAllUser();
+        const result = await user_service_1.userService.getAllUser();
         res.status(200).json({
             success: true,
             message: "All User Fetched Successfully",
@@ -32,13 +35,13 @@ const updateUserStatus = async (req, res) => {
             });
         }
         const { role, emailVerified } = req.body;
-        if (role && !Object.values(UserRole).includes(role)) {
+        if (role && !Object.values(route_auth_1.UserRole).includes(role)) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid role value",
             });
         }
-        const user = await userService.updateUserStatus(userId, {
+        const user = await user_service_1.userService.updateUserStatus(userId, {
             role,
             emailVerified,
         });
@@ -55,7 +58,7 @@ const updateUserStatus = async (req, res) => {
         });
     }
 };
-export const userController = {
+exports.userController = {
     getAllUser,
     updateUserStatus
 };

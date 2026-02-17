@@ -1,6 +1,9 @@
-import { prisma } from "../../lib/prisma";
-export const getProfileService = async (userId) => {
-    return prisma.user.findUnique({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateUserProfile = exports.getProfileService = void 0;
+const prisma_1 = require("../../lib/prisma");
+const getProfileService = async (userId) => {
+    return prisma_1.prisma.user.findUnique({
         where: { id: userId },
         select: {
             id: true,
@@ -11,9 +14,11 @@ export const getProfileService = async (userId) => {
         },
     });
 };
-export const updateUserProfile = async (id, data) => {
-    return prisma.user.update({
+exports.getProfileService = getProfileService;
+const updateUserProfile = async (id, data) => {
+    return prisma_1.prisma.user.update({
         where: { id },
         data,
     });
 };
+exports.updateUserProfile = updateUserProfile;

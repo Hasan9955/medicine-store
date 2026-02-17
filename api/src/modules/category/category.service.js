@@ -1,6 +1,9 @@
-import { prisma } from "../../lib/prisma";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.categoryService = void 0;
+const prisma_1 = require("../../lib/prisma");
 const createCategory = async (name) => {
-    const category = await prisma.category.create({
+    const category = await prisma_1.prisma.category.create({
         data: {
             name,
         },
@@ -11,14 +14,14 @@ const createCategory = async (name) => {
     return category;
 };
 const getAllCategory = async () => {
-    const categories = await prisma.category.findMany({
+    const categories = await prisma_1.prisma.category.findMany({
         orderBy: {
             createdAt: "desc"
         }
     });
     return categories;
 };
-export const categoryService = {
+exports.categoryService = {
     createCategory,
     getAllCategory
 };

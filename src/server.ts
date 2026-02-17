@@ -1,8 +1,8 @@
-import app from "./app.js";
 import { auth } from "./lib/auth";
 import { prisma } from "./lib/prisma";
 import { toNodeHandler } from "better-auth/node";
 import routeAuth, { UserRole } from "./middlewares/route-auth";
+import app from "./app";
 
 const PORT = process.env.PORT || 5000;
 

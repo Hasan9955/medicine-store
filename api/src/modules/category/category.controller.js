@@ -1,4 +1,7 @@
-import { categoryService } from "./category.service";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.categoryController = void 0;
+const category_service_1 = require("./category.service");
 const createCategory = async (req, res) => {
     try {
         const { name } = req.body;
@@ -8,7 +11,7 @@ const createCategory = async (req, res) => {
                 message: "Category name is required",
             });
         }
-        const category = await categoryService.createCategory(name);
+        const category = await category_service_1.categoryService.createCategory(name);
         res.status(201).json({
             success: true,
             message: "Category created successfully",
@@ -24,7 +27,7 @@ const createCategory = async (req, res) => {
 };
 const getAllCategory = async (req, res) => {
     try {
-        const categories = await categoryService.getAllCategory();
+        const categories = await category_service_1.categoryService.getAllCategory();
         res.status(200).json({
             success: true,
             message: "Categories fetched successfully",
@@ -38,7 +41,7 @@ const getAllCategory = async (req, res) => {
         });
     }
 };
-export const categoryController = {
+exports.categoryController = {
     createCategory,
     getAllCategory
 };
