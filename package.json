@@ -1,20 +1,19 @@
 {
   "name": "medicine-store-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "api/server.js",
+  "description": "backend",
+  "main": "server.js",
   "scripts": {
-    "start": "node ./dist/server.js",
+    "start": "node ./dist/src/server.js",
     "test": "npm run -- dev ",
-    "dev": "npx tsx watch src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "vercel-build": "prisma generate",
     "postinstall": "prisma generate"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
+  "author": "Hasan",
+  "license": "ISC", 
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
@@ -22,6 +21,7 @@
     "@types/nodemailer": "^7.0.9",
     "@types/pg": "^8.16.0",
     "prisma": "^7.3.0",
+    "ts-node-dev": "^2.0.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
@@ -34,7 +34,6 @@
     "express": "^5.2.1",
     "nodemailer": "^7.0.12",
     "pg": "^8.17.2",
-    "ts-node-dev": "^2.0.0",
     "tsup": "^8.5.1",
     "vercel": "^50.11.0"
   }
