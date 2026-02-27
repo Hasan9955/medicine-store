@@ -11,7 +11,11 @@ import { cartRoutes } from "./modules/cart/cart.route";
 const app:Application = express();
 
 app.use(cors({
-    origin: process.env.APP_URL || "http://localhost:3000",
+    // origin: process.env.APP_URL || "http://localhost:3000",
+    origin: [
+        "http://localhost:3000",
+        "http://217.15.171.113:3000",
+    ],
     credentials: true
 }))
 
